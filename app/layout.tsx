@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   description: 'An AI-powered dashboard that acts as a business operating system for solo founders or small teams — helping them plan, track, automate, and act intelligently.',
   keywords: 'AI, business, dashboard, automation, OKR, task management, solo founder',
   authors: [{ name: 'Autopilot COO Team' }],
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
   openGraph: {
     title: 'Autopilot COO - AI-Powered Business Operating System',
@@ -24,6 +23,11 @@ export const metadata: Metadata = {
     title: 'Autopilot COO - AI-Powered Business Operating System',
     description: 'An AI-powered dashboard that acts as a business operating system for solo founders or small teams.',
   },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({

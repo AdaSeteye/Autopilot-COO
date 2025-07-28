@@ -5,10 +5,12 @@ import { createClient } from '@supabase/supabase-js'
 import { ThemeProvider } from 'next-themes'
 
 // Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null
 
 // User context
 interface User {
@@ -36,6 +38,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+
     // Get initial session
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession()
@@ -63,6 +70,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const fetchUserProfile = async (userId: string) => {
+    if (!supabase) return
+    
     try {
       const { data, error } = await supabase
         .from('users')
@@ -78,6 +87,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signIn = async (email: string, password: string) => {
+    if (!supabase) throw new Error('Supabase not configured')
+    
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -86,6 +97,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signUp = async (email: string, password: string, fullName: string) => {
+    if (!supabase) throw new Error('Supabase not configured')
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -107,11 +120,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signOut = async () => {
+    if (!supabase) throw new Error('Supabase not configured')
+    
     const { error } = await supabase.auth.signOut()
     if (error) throw error
   }
 
   const updateProfile = async (updates: Partial<User>) => {
+    if (!supabase) throw new Error('Supabase not configured')
     if (!user) throw new Error('No user logged in')
     
     const { error } = await supabase
