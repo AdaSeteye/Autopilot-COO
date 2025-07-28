@@ -1,210 +1,314 @@
-# 🧠 Autopilot COO - AI-Powered Business Operating System
+# AutoPilot COO - AI-Powered Business Operating System
 
-> **An AI-powered dashboard that acts as a business operating system for solo founders or small teams — helping them plan, track, automate, and act intelligently.**
+A comprehensive productivity and business management platform powered by AI that helps streamline operations, track objectives and key results (OKRs), manage tasks, handle invoicing, and provide intelligent insights.
 
 ## 🚀 Features
 
-### 🏠 Smart Dashboard
-- **AI-Generated Business Summary**: Daily insights and metrics overview
-- **Intelligent Task Planning**: AI suggests top 3 tasks for today
-- **OKR Tracking**: SMART goal generation and progress monitoring
-- **Real-time Metrics**: Revenue, churn, and key performance indicators
+### ✅ Task Management
+- Create, update, and track tasks with priority levels
+- Due date management and overdue alerts
+- Status tracking (pending, in progress, completed)
+- Task statistics and productivity metrics
 
-### 🤖 AI-Powered Automation
-- **Weekly Business Reviews**: Automated GPT-generated summaries
-- **Smart Suggestions**: Proactive insights and recommendations
-- **Invoice Generation**: AI-assisted invoice creation and management
-- **Recurring Task Automation**: Natural language task scheduling
+### 🎯 OKR Management
+- Create and manage Objectives and Key Results
+- Track progress with visual indicators
+- Period-based goal setting (quarterly, semi-annual, annual)
+- Key result completion analytics
 
-### 📊 Business Intelligence
-- **Goal Management**: Link tasks to OKRs with automatic scoring
-- **Performance Analytics**: Track progress across all business areas
-- **Predictive Insights**: AI-powered trend analysis and forecasting
+### 💼 Invoice Management
+- Create professional invoices with multiple line items
+- Client management system
+- Multiple currency support (USD, EUR, GBP, CAD, AUD)
+- Invoice status tracking (draft, sent, paid, overdue, cancelled)
+- Financial reporting and analytics
 
-## 🛠 Tech Stack
+### 🤖 AI-Powered Features
+- AI task generation based on prompts
+- Smart OKR suggestions
+- Content generation (emails, reports, proposals, summaries)
+- Task prioritization algorithms
+- Productivity insights and recommendations
 
-### Frontend
-- **Next.js 14** with App Router
-- **TypeScript** for type safety
-- **Tailwind CSS** for styling
-- **Radix UI** for accessible components
-- **Framer Motion** for animations
+### 📊 Analytics & Reporting
+- Comprehensive dashboard with real-time metrics
+- Productivity tracking and trends
+- Financial performance analytics
+- Goal progress visualization
+- Data export functionality (JSON/CSV)
 
-### Backend
-- **Node.js/Express** for API
-- **Supabase** for auth and database
-- **OpenAI GPT-4** for AI features
-- **LangChain** for AI orchestration
-- **Stripe** for payments
-- **Resend** for email
+### 👥 User Management
+- Secure authentication with JWT
+- User profile management
+- Client relationship management
+- Activity logging and audit trails
 
-### Infrastructure
-- **PostgreSQL** via Supabase
-- **Redis** for caching and queues
-- **Vercel** for frontend deployment
-- **Railway** for backend deployment
+## 🏗️ Architecture
 
-## 📁 Project Structure
+### Frontend (Next.js 14)
+- **Framework**: Next.js 14 with App Router
+- **UI**: Tailwind CSS + Radix UI components
+- **State Management**: React hooks and context
+- **Charts**: Recharts for data visualization
+- **Forms**: React Hook Form with Zod validation
 
-```
-autopilot-coo/
-├── frontend/                 # Next.js application
-│   ├── app/                 # App Router pages
-│   ├── components/          # Reusable UI components
-│   ├── lib/                 # Utilities and configurations
-│   ├── hooks/              # Custom React hooks
-│   └── types/              # TypeScript type definitions
-├── backend/                 # Express.js API
-│   ├── src/
-│   │   ├── controllers/    # Route controllers
-│   │   ├── services/       # Business logic
-│   │   ├── middleware/     # Express middleware
-│   │   ├── models/         # Data models
-│   │   ├── routes/         # API routes
-│   │   ├── utils/          # Utility functions
-│   │   └── ai/             # AI/ML services
-│   └── tests/              # Backend tests
-├── docs/                   # Documentation
-└── scripts/                # Deployment scripts
-```
+### Backend (Node.js/Express)
+- **Framework**: Express.js with TypeScript support
+- **Database**: MySQL with connection pooling
+- **Authentication**: JWT-based auth system
+- **Validation**: Express Validator
+- **Logging**: Winston with file rotation
+- **Security**: Helmet, CORS, rate limiting
 
-## 🚀 Quick Start
+### Database Schema
+- **Users**: Authentication and profile data
+- **Tasks**: Task management with priority and status
+- **OKRs**: Objectives with linked key results
+- **Invoices**: Complete invoicing system with items
+- **Clients**: Customer relationship management
+
+## 🛠️ Development Setup
 
 ### Prerequisites
-- Node.js 18+
-- PostgreSQL database
-- OpenAI API key
-- Supabase account
-- Stripe account
+- Node.js 18+ and npm
+- MySQL 8.0+
+- Git
 
-### Frontend Setup
+### 1. Clone Repository
 ```bash
-cd frontend
-npm install
-npm run dev
+git clone <repository-url>
+cd autopilot-coo
 ```
 
-### Backend Setup
+### 2. Frontend Setup
 ```bash
+# Install frontend dependencies
+npm install
+
+# Create environment file
+cp .env.example .env.local
+
+# Configure environment variables
+# NEXT_PUBLIC_API_URL=http://localhost:3001
+# NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### 3. Backend Setup
+```bash
+# Navigate to backend
 cd backend
+
+# Install backend dependencies
 npm install
+
+# Create environment file
+cp .env.example .env
+
+# Configure environment variables
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=your_mysql_user
+DB_PASSWORD=your_mysql_password
+DB_NAME=productivity_app
+JWT_SECRET=your_super_secret_jwt_key_here
+```
+
+### 4. Database Setup
+```bash
+# Create MySQL database
+mysql -u root -p
+CREATE DATABASE productivity_app;
+exit
+
+# The database tables will be created automatically on first run
+```
+
+### 5. Run Development Servers
+```bash
+# Terminal 1: Frontend (from project root)
+npm run dev
+
+# Terminal 2: Backend (from backend directory)
+cd backend
 npm run dev
 ```
+
+### 6. Access the Application
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:3001
+- Health Check: http://localhost:3001/health
+
+## 🚀 Production Deployment
 
 ### Environment Variables
 
-Create `.env.local` in the frontend directory:
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-NEXT_PUBLIC_API_URL=http://localhost:3001
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_key
+#### Frontend (.env.local)
+```bash
+NEXT_PUBLIC_API_URL=https://your-api-domain.com
+NEXT_PUBLIC_APP_URL=https://your-app-domain.com
 ```
 
-Create `.env` in the backend directory:
-```env
+#### Backend (.env)
+```bash
+NODE_ENV=production
 PORT=3001
-NODE_ENV=development
-SUPABASE_URL=your_supabase_url
-SUPABASE_SERVICE_KEY=your_supabase_service_key
-OPENAI_API_KEY=your_openai_key
-STRIPE_SECRET_KEY=your_stripe_secret
-RESEND_API_KEY=your_resend_key
-REDIS_URL=your_redis_url
+FRONTEND_URL=https://your-app-domain.com
+
+# Database
+DB_HOST=your-production-db-host
+DB_PORT=3306
+DB_USER=your-production-db-user
+DB_PASSWORD=your-production-db-password
+DB_NAME=productivity_app
+
+# Security
+JWT_SECRET=your-super-secret-production-jwt-key-64-chars-minimum
+
+# Logging
+LOG_LEVEL=info
 ```
 
-## 🧠 AI Features
+### Build Commands
+```bash
+# Build frontend
+npm run build
 
-### Daily Task Planning
-- Analyzes user's tasks, OKRs, and deadlines
-- Suggests top 3 priority tasks for the day
-- Learns from user's completion patterns
+# Build backend (if using TypeScript compilation)
+cd backend
+npm run build
 
-### Weekly Business Reviews
-- Automatically generates weekly summaries
-- Highlights key metrics and trends
-- Provides actionable insights
+# Start production servers
+npm start  # Frontend
+cd backend && npm start  # Backend
+```
 
-### Smart Suggestions
-- Proactive recommendations based on business data
-- Churn alerts and customer engagement suggestions
-- Goal completion strategies
+## 📚 API Documentation
 
-### Invoice Assistant
-- AI-generated invoice descriptions
-- Smart pricing suggestions
-- Automated follow-up reminders
+### Authentication Endpoints
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user
+- `POST /api/auth/logout` - User logout
 
-## 📊 Database Schema
+### Task Management
+- `GET /api/tasks` - List tasks with filtering
+- `POST /api/tasks` - Create new task
+- `GET /api/tasks/:id` - Get specific task
+- `PUT /api/tasks/:id` - Update task
+- `DELETE /api/tasks/:id` - Delete task
+- `GET /api/tasks/stats/summary` - Task statistics
 
-### Core Tables
-- `users` - User accounts and profiles
-- `tasks` - Task management with AI metadata
-- `okrs` - Objectives and Key Results
-- `invoices` - Invoice management
-- `metrics` - Business metrics tracking
-- `ai_suggestions` - AI-generated insights
-- `recurring_tasks` - Automated task scheduling
+### OKR Management
+- `GET /api/okrs` - List OKRs
+- `POST /api/okrs` - Create new OKR
+- `GET /api/okrs/:id` - Get specific OKR
+- `PUT /api/okrs/:id` - Update OKR
+- `PUT /api/okrs/:okrId/key-results/:krId` - Update key result progress
+- `DELETE /api/okrs/:id` - Delete OKR
+
+### Invoice Management
+- `GET /api/invoices` - List invoices
+- `POST /api/invoices` - Create new invoice
+- `GET /api/invoices/:id` - Get specific invoice
+- `PATCH /api/invoices/:id/status` - Update invoice status
+- `DELETE /api/invoices/:id` - Delete invoice
+
+### AI Features
+- `POST /api/ai/generate-tasks` - Generate AI tasks
+- `POST /api/ai/suggest-okrs` - Get AI OKR suggestions
+- `POST /api/ai/generate-content` - Generate AI content
+- `GET /api/ai/insights` - Get AI insights
+- `POST /api/ai/prioritize-tasks` - AI task prioritization
+
+### Analytics
+- `GET /api/metrics/dashboard` - Dashboard metrics
+- `GET /api/metrics/productivity` - Productivity analytics
+- `GET /api/metrics/financial` - Financial metrics
+- `GET /api/metrics/goals` - Goal progress metrics
+- `GET /api/metrics/export` - Data export
 
 ## 🔒 Security Features
 
-- JWT-based authentication
-- Rate limiting and brute force protection
-- Input validation and sanitization
-- CORS configuration
-- Helmet.js security headers
-- SQL injection prevention
+- **Authentication**: JWT-based with secure token handling
+- **Rate Limiting**: API rate limiting to prevent abuse
+- **Input Validation**: Comprehensive input validation and sanitization
+- **SQL Injection Protection**: Parameterized queries
+- **CORS Protection**: Configured CORS for cross-origin requests
+- **Security Headers**: Helmet.js for security headers
+- **Password Hashing**: bcrypt for secure password storage
+
+## 📈 Performance Optimizations
+
+- **Database Indexing**: Optimized database indexes for common queries
+- **Connection Pooling**: MySQL connection pooling for better performance
+- **Compression**: Gzip compression for API responses
+- **Caching**: Strategic caching for static data
+- **Code Splitting**: Next.js automatic code splitting
 
 ## 🧪 Testing
 
-### Frontend Tests
 ```bash
-npm run test
-```
+# Frontend tests
+npm test
 
-### Backend Tests
-```bash
+# Backend tests
 cd backend
 npm test
+
+# Linting
+npm run lint
+
+# Type checking
+npm run type-check
 ```
 
-## 📈 Performance
+## 📦 Project Structure
 
-- Server-side rendering for SEO
-- Image optimization
-- Code splitting
-- Redis caching
-- Database query optimization
-- CDN for static assets
-
-## 🚀 Deployment
-
-### Frontend (Vercel)
-```bash
-vercel --prod
 ```
-
-### Backend (Railway)
-```bash
-railway up
+autopilot-coo/
+├── app/                    # Next.js app directory
+├── components/             # React components
+│   ├── ui/                # Reusable UI components
+│   └── dashboard/         # Dashboard-specific components
+├── lib/                   # Utility libraries
+├── backend/               # Express.js backend
+│   ├── src/
+│   │   ├── routes/        # API route handlers
+│   │   ├── middleware/    # Express middleware
+│   │   ├── config/        # Configuration files
+│   │   └── utils/         # Utility functions
+│   └── logs/              # Application logs
+├── database/              # Database schemas and migrations
+└── public/                # Static assets
 ```
-
-## 📝 License
-
-MIT License - see LICENSE file for details
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📞 Support
+## 📄 License
 
-For support, email support@autopilotcoo.com or join our Discord community.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+For support, email support@autopilotcoo.com or join our Slack channel.
+
+## 🗺️ Roadmap
+
+- [ ] Real-time notifications
+- [ ] Mobile app development
+- [ ] Advanced AI integrations
+- [ ] Team collaboration features
+- [ ] Calendar integration
+- [ ] Email automation
+- [ ] Advanced reporting dashboards
+- [ ] Multi-language support
 
 ---
 
-Built with ❤️ for solo founders and small teams 
+Built with ❤️ by the AutoPilot COO Team 

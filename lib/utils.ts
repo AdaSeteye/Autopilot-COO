@@ -5,35 +5,46 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatDate(date: Date | string): string {
-  const d = new Date(date)
-  return d.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
-export function formatDateTime(date: Date | string): string {
-  const d = new Date(date)
-  return d.toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
-
-export function formatCurrency(amount: number): string {
+export function formatCurrency(amount: number, currency: string = 'USD') {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: currency,
   }).format(amount)
 }
 
-export function formatPercentage(value: number): string {
-  return `${(value * 100).toFixed(1)}%`
+export function formatDate(date: string | Date) {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(date))
+}
+
+export function formatRelativeTime(date: string | Date) {
+  const now = new Date()
+  const target = new Date(date)
+  const diffInSeconds = Math.floor((target.getTime() - now.getTime()) / 1000)
+  
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+  
+  if (Math.abs(diffInSeconds) < 60) {
+    return rtf.format(diffInSeconds, 'second')
+  } else if (Math.abs(diffInSeconds) < 3600) {
+    return rtf.format(Math.floor(diffInSeconds / 60), 'minute')
+  } else if (Math.abs(diffInSeconds) < 86400) {
+    return rtf.format(Math.floor(diffInSeconds / 3600), 'hour')
+  } else {
+    return rtf.format(Math.floor(diffInSeconds / 86400), 'day')
+  }
+}
+
+export function truncateText(text: string, length: number) {
+  if (text.length <= length) return text
+  return text.slice(0, length) + '...'
+}
+
+export function generateId() {
+  return Math.random().toString(36).substr(2, 9)
 }
 
 export function debounce<T extends (...args: any[]) => any>(
@@ -45,32 +56,4 @@ export function debounce<T extends (...args: any[]) => any>(
     clearTimeout(timeout)
     timeout = setTimeout(() => func(...args), wait)
   }
-}
-
-export function generateId(): string {
-  return Math.random().toString(36).substr(2, 9)
-}
-
-export function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-export function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text
-  return text.slice(0, maxLength) + '...'
-}
-
-export function calculateProgress(completed: number, total: number): number {
-  if (total === 0) return 0
-  return Math.round((completed / total) * 100)
-}
-
-export function getInitials(name: string): string {
-  return name
-    .split(' ')
-    .map(word => word.charAt(0))
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
 } 

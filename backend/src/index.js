@@ -7,6 +7,8 @@ const compression = require('compression')
 require('express-async-errors')
 require('dotenv').config()
 
+const { initializeDatabase, testConnection } = require('./config/database')
+
 const authRoutes = require('./routes/auth')
 const taskRoutes = require('./routes/tasks')
 const okrRoutes = require('./routes/okrs')
@@ -67,11 +69,32 @@ app.use('*', (req, res) => {
 // Error handling middleware
 app.use(errorHandler)
 
-// Start server
-app.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT}`)
-  logger.info(`Environment: ${process.env.NODE_ENV}`)
-})
+// Initialize database and start server
+const startServer = async () => {
+  try {
+    // Test database connection
+    const isDbConnected = await testConnection()
+    if (!isDbConnected) {
+      logger.error('Failed to connect to database')
+      process.exit(1)
+    }
+
+    // Initialize database tables
+    await initializeDatabase()
+
+    // Start server
+    app.listen(PORT, () => {
+      logger.info(`Server running on port ${PORT}`)
+      logger.info(`Environment: ${process.env.NODE_ENV}`)
+      logger.info('Database connected and initialized')
+    })
+  } catch (error) {
+    logger.error('Failed to start server:', error)
+    process.exit(1)
+  }
+}
+
+startServer()
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
